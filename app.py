@@ -925,4 +925,4 @@ def admin_highrisk():
     return render_template("admin_highrisk.html", data=data)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
