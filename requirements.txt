@@ -6,3 +6,4 @@ matplotlib
 bcrypt
 gunicorn
 joblib
+edge-tts
