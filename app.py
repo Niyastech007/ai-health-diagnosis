@@ -851,6 +851,8 @@ def admin():
     if os.path.exists("patient_history.csv"):
 
         df = pd.read_csv("patient_history.csv")
+        df["DateTime"] = pd.to_datetime(df["DateTime"], errors="coerce")
+        df = df.dropna(subset=["DateTime"])
 
         total_predictions = len(df)
 
