@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>👨‍⚕️ AI Health System Login</title>
+<meta charset="UTF-8">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+height:100vh;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:Segoe UI;
+overflow:hidden;
+}
+
+/* Background medical illustration */
+.bg-image{
+position:absolute;
+width:100%;
+height:100%;
+background:url("https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=1500&q=80");
+background-size:cover;
+opacity:0.2;
+z-index:-1;
+}
+
+/* Glass card */
+
+.login-card{
+
+width:420px;
+padding:40px;
+border-radius:20px;
+
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(12px);
+
+box-shadow:0 10px 40px rgba(0,0,0,0.5);
+color:white;
+}
+
+/* Animated AI logo */
+
+.logo{
+font-size:45px;
+text-align:center;
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-8px);}
+100%{transform:translateY(0px);}
+}
+
+.title{
+font-size:26px;
+font-weight:700;
+text-align:center;
+margin-bottom:5px;
+}
+
+.subtitle{
+text-align:center;
+font-size:14px;
+opacity:0.85;
+margin-bottom:25px;
+}
+
+.form-control{
+border-radius:10px;
+border:none;
+padding:12px;
+}
+
+/* Show password icon */
+
+.password-box{
+position:relative;
+}
+
+.toggle-pass{
+
+position:absolute;
+right:12px;
+top:10px;
+cursor:pointer;
+font-size:18px;
+color:#333;
+}
+
+/* Login button */
+
+.login-btn{
+
+width:100%;
+padding:12px;
+border-radius:12px;
+font-weight:600;
+background:#00c6ff;
+border:none;
+}
+
+.login-btn:hover{
+background:#0099cc;
+}
+
+.register-link{
+text-align:center;
+margin-top:18px;
+}
+
+.register-link a{
+color:#00e6e6;
+text-decoration:none;
+}
+
+/* Brain scan effect */
+
+.logo{
+position:relative;
+font-size:50px;
+text-align:center;
+text-shadow:0 0 12px #00e6ff;
+animation:float 3s ease-in-out infinite;
+}
+
+/* scanning line */
+
+.brain-scan{
+position:absolute;
+left:50%;
+top:0;
+width:60px;
+height:4px;
+background:#00e6ff;
+transform:translateX(-50%);
+animation:scan 2s infinite;
+box-shadow:0 0 10px #00e6ff;
+}
+
+/* scan animation */
+
+@keyframes scan{
+
+0%{
+top:0;
+opacity:0;
+}
+
+50%{
+opacity:1;
+}
+
+100%{
+top:55px;
+opacity:0;
+}
+
+}
+
+/* AI scan overlay */
+
+#scanOverlay{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.85);
+
+display:none;
+align-items:center;
+justify-content:center;
+
+z-index:9999;
+
+}
+
+/* scan box */
+
+.scan-box{
+
+text-align:center;
+color:white;
+
+}
+
+/* brain icon */
+
+.scan-brain{
+
+font-size:60px;
+margin-bottom:20px;
+animation:brainPulse 1s infinite;
+
+}
+
+/* scan text */
+
+.scan-text{
+
+font-size:20px;
+margin-bottom:20px;
+
+}
+
+/* scan loading bar */
+
+.scan-bar{
+
+width:200px;
+height:6px;
+background:#333;
+
+border-radius:10px;
+overflow:hidden;
+
+}
+
+.scan-bar::after{
+
+content:"";
+
+display:block;
+
+height:100%;
+width:0;
+
+background:#00e6ff;
+
+animation:loading 2s forwards;
+
+}
+
+/* brain pulse */
+
+@keyframes brainPulse{
+
+0%{transform:scale(1);}
+50%{transform:scale(1.2);}
+100%{transform:scale(1);}
+
+}
+
+/* loading animation */
+
+@keyframes loading{
+
+0%{width:0;}
+100%{width:100%;}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="bg-image"></div>
+
+<div class="login-card">
+
+<div class="logo">
+🧠
+<div class="brain-scan"></div>
+</div>
+
+<div class="title">
+AI Smart Health Diagnosis
+</div>
+
+<div class="subtitle">
+Secure Login Portal
+</div>
+
+{% if error %}
+<div class="alert alert-danger text-center">
+{{ error }}
+</div>
+{% endif %}
+
+<form method="POST" onsubmit="return validateLogin()">
+
+<div class="mb-3">
+
+<input type="text"
+name="username"
+class="form-control"
+placeholder="Username"
+required>
+
+</div>
+
+<div class="mb-3 password-box">
+
+<input type="password"
+name="password"
+id="password"
+class="form-control"
+placeholder="Password"
+required>
+
+<span class="toggle-pass" onclick="togglePassword()">👁</span>
+
+</div>
+
+<button type="button" onclick="scanLogin()" class="login-btn">
+Login
+</button>
+
+</form>
+
+<div class="register-link">
+
+New user? <a href="/register">Create account</a>
+
+</div>
+
+</div>
+
+<script>
+
+function togglePassword(){
+
+let pass=document.getElementById("password");
+
+if(pass.type==="password"){
+pass.type="text";
+}
+else{
+pass.type="password";
+}
+
+}
+
+</script>
+
+<script>
+
+function validateLogin(){
+
+let username=document.querySelector("input[name='username']").value.trim();
+let password=document.querySelector("input[name='password']").value.trim();
+
+if(username.length < 3){
+alert("Username must be at least 3 characters.");
+return false;
+}
+
+if(password.length < 4){
+alert("Password must be at least 4 characters.");
+return false;
+}
+
+return true;
+
+}
+
+</script>
+
+<div id="scanOverlay">
+
+<div class="scan-box">
+
+<div class="scan-brain">🧠</div>
+
+<div class="scan-text">
+AI scanning credentials...
+</div>
+
+<div class="scan-bar"></div>
+
+</div>
+
+</div>
+
+<script>
+
+function scanLogin(){
+
+let overlay=document.getElementById("scanOverlay");
+
+overlay.style.display="flex";
+
+/* wait 2 seconds then submit */
+
+setTimeout(function(){
+
+document.querySelector("form").submit();
+
+},2000);
+
+}
+
+</script>
+
+</body>
+</html>

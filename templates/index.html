@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Smart Health Diagnosis</title>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+background:#f4f8fb;
+font-family:'Segoe UI',sans-serif;
+}
+
+/* dashboard container */
+
+.dashboard-card{
+
+background:white;
+padding:30px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.12);
+
+}
+
+/* prediction cards */
+
+.result-cards{
+
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+margin-bottom:25px;
+
+}
+
+.result-box{
+
+flex:1;
+min-width:220px;
+padding:20px;
+border-radius:12px;
+color:white;
+text-align:center;
+font-weight:600;
+font-size:18px;
+
+}
+
+/* disease box */
+
+.disease-box{
+
+background:linear-gradient(135deg,#2196f3,#1976d2);
+
+}
+
+/* severity */
+
+.severity-box{
+
+background:linear-gradient(135deg,#ff5252,#d32f2f);
+
+}
+
+/* confidence */
+
+.confidence-box{
+
+background:linear-gradient(135deg,#ff9800,#f57c00);
+
+}
+
+/* report box */
+
+textarea{
+
+background:#0a0a0a;
+color:#00ff9c;
+border-radius:12px;
+padding:15px;
+font-family:monospace;
+}
+
+/* action buttons */
+
+.action-buttons{
+
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+justify-content:center;
+margin-top:25px;
+
+}
+
+.action-buttons .btn{
+
+min-width:200px;
+height:55px;
+font-size:16px;
+font-weight:600;
+border-radius:12px;
+
+}
+
+.btn:hover{
+
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+
+}
+
+/* ECG container */
+
+.heartbeat-container{
+width:100%;
+display:flex;
+justify-content:center;
+margin-bottom:40px;
+}
+
+/* ECG line */
+
+.ecg{
+width:75%;
+height:80px;
+}
+
+.ecg path{
+
+fill:none;
+stroke:#ff3b3b;
+stroke-width:3;
+
+stroke-dasharray:1000;
+stroke-dashoffset:1000;
+
+animation:ecgMove 2s linear infinite;
+
+}
+
+/* ECG animation */
+
+@keyframes ecgMove{
+
+0%{
+stroke-dashoffset:1000;
+}
+
+100%{
+stroke-dashoffset:0;
+}
+
+}
+
+.ecg path{
+stroke:#ff3b3b;
+filter:drop-shadow(0 0 6px red);
+}
+
+.doctor-avatar{
+
+position:fixed;
+bottom:20px;
+right:20px;
+
+width:120px;
+text-align:center;
+
+}
+
+.doctor-avatar img{
+
+width:90px;
+animation:doctorFloat 3s ease-in-out infinite;
+
+}
+
+.doctor-text{
+
+font-size:13px;
+font-weight:600;
+margin-top:5px;
+
+}
+
+@keyframes doctorFloat{
+
+0%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+100%{transform:translateY(0)}
+
+}
+
+@keyframes talk{
+
+0%{transform:scale(1)}
+50%{transform:scale(1.08)}
+100%{transform:scale(1)}
+
+}
+
+/* Medical form card */
+
+.form-card{
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* input style */
+
+.form-control{
+height:50px;
+border-radius:10px;
+font-size:15px;
+}
+
+/* input focus */
+
+.form-control:focus{
+border-color:#4CAF50;
+box-shadow:0 0 0 0.2rem rgba(76,175,80,.25);
+}
+
+/* predict button */
+
+.predict-btn{
+height:55px;
+font-size:20px;
+font-weight:600;
+border-radius:12px;
+background:#d32f2f;
+border:none;
+}
+
+.predict-btn:hover{
+background:#b71c1c;
+transform:translateY(-2px);
+}
+
+.container{
+max-width:1300px;
+}
+
+body{
+    background-image: url("/static/medical_bg.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Heartbeat animation for title */
+
+.heartbeat-title{
+display:block;
+text-align:center;
+font-weight:700;
+animation:heartbeatText 1.2s infinite;
+transform-origin:center;
+}
+
+/* heartbeat effect */
+
+@keyframes heartbeatText{
+
+0%{
+transform:scale(1);
+}
+
+25%{
+transform:scale(1.08);
+}
+
+40%{
+transform:scale(1);
+}
+
+60%{
+transform:scale(1.12);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+.heartbeat-title{
+animation:heartbeatText 1.2s infinite;
+text-shadow:0 0 8px red;
+}
+
+/* AI title */
+
+#aiTitle{
+font-weight:700;
+transition:transform 0.15s ease;
+}
+
+/* beat effect */
+
+.titleBeat{
+transform:scale(1.12);
+text-shadow:0 0 12px red;
+}
+
+/* ECG wrapper for heart positioning */
+
+.ecg-wrapper{
+position:relative;
+width:75%;
+}
+
+/* heart in center */
+
+.ecg-heart{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%, -50%);
+font-size:60px;
+}
+
+/* beat animation */
+
+.heartBeat{
+animation:beat 0.25s ease;
+}
+
+@keyframes beat{
+
+0%{transform:translate(-50%, -50%) scale(1);}
+50%{transform:translate(-50%, -50%) scale(1.4);}
+100%{transform:translate(-50%, -50%) scale(1);}
+
+}
+
+.normal-range{
+display:block;
+font-size:12px;
+margin-top:4px;
+color:#444;
+}
+
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark shadow">
+
+<div class="container-fluid">
+
+<span class="navbar-brand fw-bold">
+🧠 AI Smart Health Diagnosis System
+</span>
+
+<div class="d-flex align-items-center gap-3">
+
+<span class="text-white">
+👤 {{ username }}
+</span>
+
+{% if username == "admin" %}
+<a href="/admin" class="btn btn-warning btn-sm">
+⚙ Admin
+</a>
+{% endif %}
+
+<a href="/history" class="btn btn-info btn-sm">
+📂 History
+</a>
+
+<a href="/logout" class="btn btn-danger btn-sm">
+🚪 Logout
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+<div class="container mt-4">
+
+<h2 id="aiTitle" class="text-center mb-4">
+AI SMART HEALTH DIAGNOSIS SYSTEM
+</h2>
+
+{% if error %}
+<div class="alert alert-danger text-center">
+{{ error }}
+</div>
+{% endif %}
+
+<div class="heartbeat-container">
+
+<div class="ecg-wrapper">
+
+<svg class="ecg" viewBox="0 0 500 100" preserveAspectRatio="none">
+
+<path
+d="M0 50 
+L40 50 
+L60 20 
+L80 80 
+L100 50 
+L140 50
+L160 50
+L180 20
+L200 80
+L220 50
+L500 50"
+/>
+
+</svg>
+
+<div class="ecg-heart" id="ecgHeart">❤️</div>
+
+</div>
+
+</div>
+
+<div class="form-card">
+
+<form method="POST" onsubmit="return validateForm()">
+
+<div class="row g-3">
+
+<div class="col-md-4">
+<input type="text" name="name"
+class="form-control"
+placeholder="👤 Patient Name" required>
+</div>
+
+<div class="col-md-4">
+<input type="number" name="age"
+class="form-control"
+placeholder="🎂 Age" required>
+</div>
+
+<div class="col-md-4">
+<input type="number" name="topbp"
+class="form-control"
+id="topbp"
+placeholder="💓 Top BP" required>
+
+<small class="normal-range">Normal: 90 – 120 mmHg</small>
+</div>
+
+<div class="col-md-4">
+<input type="number" name="botbp"
+class="form-control"
+id="botbp"
+placeholder="💓 Bottom BP" required>
+
+<small class="normal-range">Normal: 60 – 80 mmHg</small>
+</div>
+
+<div class="col-md-4">
+<input type="number" name="sugar"
+class="form-control"
+id="sugar"
+placeholder="🧪 Sugar Level" required>
+
+<small class="normal-range">Normal: 80 – 120 mg/dL</small>
+</div>
+
+<div class="col-md-4">
+<input type="number" step="0.1"
+name="bmi"
+id="bmi"
+class="form-control"
+placeholder="⚖ BMI" required>
+
+<small class="normal-range">Normal: 18.5 – 24.9</small>
+</div>
+
+<div class="col-md-4">
+<select name="chest" class="form-control" required>
+<option value="1">❤️ Chest Pain - Yes</option>
+<option value="0">💚 Chest Pain - No</option>
+</select>
+</div>
+
+</div>
+
+
+<button type="submit" class="predict-btn w-100 mt-3">
+🧠 Predict Health Condition
+</button>
+
+</form>
+
+
+{% if report %}
+
+<hr class="mt-4">
+<div class="dashboard-card">
+
+<div class="result-cards">
+
+<div class="result-box disease-box">
+🧬 Disease<br>
+{{ prediction }}
+</div>
+
+<div class="result-box severity-box">
+⚠ Severity<br>
+{{ severity }}
+</div>
+
+<div class="result-box confidence-box">
+📊 Confidence<br>
+{{ confidence|round(2) }}%
+</div>
+
+</div>
+
+<h3 class="text-center fw-bold mb-3">
+📄 Detailed AI Medical Report
+</h3>
+
+<div class="doctor-avatar" id="doctorAvatar">
+
+<img src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png">
+
+<div class="doctor-text">
+AI Doctor Assistant
+</div>
+
+</div>
+
+<textarea id="reportBox"
+class="form-control text-center fw-bold"
+style="height:350px;font-size:15px;">
+{{ report }}
+</textarea>
+
+</div>
+
+<div class="action-buttons">
+
+<a href="/feature-graph" target="_blank"
+class="btn btn-info btn-lg">
+🧠 Feature Importance
+</a>
+
+<form action="/comparison-graph" method="POST" target="_blank">
+<input type="hidden" name="topbp" value="{{ request.form.topbp or 0 }}">
+<input type="hidden" name="botbp" value="{{ request.form.botbp or 0 }}">
+<input type="hidden" name="sugar" value="{{ request.form.sugar or 0 }}">
+<input type="hidden" name="bmi" value="{{ request.form.bmi or 0 }}">
+<button class="btn btn-warning btn-lg">
+📊 Patient vs Normal
+</button>
+</form>
+
+<form action="/download-pdf" method="POST">
+<input type="hidden" name="report_text" id="hiddenReport">
+<button type="submit"
+class="btn btn-success btn-lg"
+onclick="preparePDF()">
+📄 Download PDF
+</button>
+</form>
+
+
+<!-- AI DOCTOR VOICE -->
+
+<div class="d-flex flex-column align-items-center">
+
+<select id="voiceLang" class="form-control mb-2">
+<option value="en">English Voice</option>
+<option value="ta">Tamil Voice</option>
+</select>
+
+<div class="d-flex gap-3">
+
+<button type="button"
+onclick="prepareVoice()"
+class="btn btn-primary btn-lg">
+🔊 Speak Report
+</button>
+
+<button type="button"
+onclick="stopVoice()"
+class="btn btn-danger btn-lg">
+⏹ Stop Speech
+</button>
+
+</div>
+
+
+<a href="/history"
+class="btn btn-secondary btn-lg">
+📂 View History
+</a>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+
+<script>
+
+function preparePDF(){
+document.getElementById("hiddenReport").value =
+document.getElementById("reportBox").value;
+}
+
+let audioPlayer = null;
+
+function prepareVoice(){
+
+let avatar=document.getElementById("doctorAvatar");
+
+avatar.style.transform="scale(1.1)";
+
+fetch("/doctor-voice",{
+method:"POST",
+body:new URLSearchParams({
+
+name:document.querySelector("input[name='name']").value,
+disease:"{{ prediction }}",
+severity:"{{ severity }}",
+lang:document.getElementById("voiceLang").value
+
+})
+})
+
+.then(res=>res.blob())
+.then(blob=>{
+
+let url=URL.createObjectURL(blob);
+
+audioPlayer=new Audio(url);
+
+audioPlayer.play();
+
+/* avatar talking animation */
+
+avatar.style.animation="talk 0.8s infinite";
+
+audioPlayer.onended=function(){
+
+avatar.style.animation="doctorFloat 3s infinite";
+avatar.style.transform="scale(1)";
+
+};
+
+});
+
+}
+
+function stopVoice(){
+
+if(audioPlayer){
+
+audioPlayer.pause();
+audioPlayer.currentTime=0;
+
+let avatar=document.getElementById("doctorAvatar");
+
+avatar.style.animation="doctorFloat 3s infinite";
+avatar.style.transform="scale(1)";
+
+}
+
+}
+
+</script>
+
+<script>
+    function validateForm(){
+let name=document.querySelector("input[name='name']").value.trim();
+
+if(name.length < 2){
+alert("Please enter a valid patient name.");
+return false;
+}
+let age=document.querySelector("input[name='age']").value;
+let topbp=document.querySelector("input[name='topbp']").value;
+let botbp=document.querySelector("input[name='botbp']").value;
+let sugar=document.querySelector("input[name='sugar']").value;
+let bmi=document.querySelector("input[name='bmi']").value;
+
+if(age<1 || age>120){
+alert("Invalid Age! Enter age between 1 - 120.");
+return false;
+}
+
+if(topbp<70 || topbp>250){
+alert("Invalid Top BP value.");
+return false;
+}
+
+if(botbp<40 || botbp>150){
+alert("Invalid Bottom BP value.");
+return false;
+}
+
+if(sugar<40 || sugar>600){
+alert("Invalid Sugar level.");
+return false;
+}
+
+if(bmi<10 || bmi>60){
+alert("Invalid BMI value.");
+return false;
+}
+
+return true;
+
+}
+</script>
+
+<script>
+
+let title = document.getElementById("aiTitle");
+
+/* heartbeat timing */
+
+setInterval(function(){
+
+title.classList.add("titleBeat");
+
+setTimeout(function(){
+title.classList.remove("titleBeat");
+},150);
+
+},2000);
+
+</script>
+
+<script>
+
+let heart=document.getElementById("ecgHeart");
+
+/* sync heartbeat with ECG animation */
+
+setInterval(function(){
+
+heart.classList.add("heartBeat");
+
+setTimeout(function(){
+heart.classList.remove("heartBeat");
+},250);
+
+},2000);
+
+</script>
+
+<script>
+
+function checkHealth(){
+
+let sugar=document.getElementById("sugar");
+let topbp=document.getElementById("topbp");
+let botbp=document.getElementById("botbp");
+let bmi=document.getElementById("bmi");
+
+sugar.style.border="";
+topbp.style.border="";
+botbp.style.border="";
+bmi.style.border="";
+
+/* Sugar */
+
+if(sugar.value){
+
+if(sugar.value>=80 && sugar.value<=140)
+sugar.style.border="2px solid green";
+
+else if(sugar.value<=180)
+sugar.style.border="2px solid orange";
+
+else
+sugar.style.border="2px solid red";
+
+}
+
+/* Top BP */
+
+if(topbp.value){
+
+if(topbp.value>=90 && topbp.value<=120)
+topbp.style.border="2px solid green";
+
+else if(topbp.value<=140)
+topbp.style.border="2px solid orange";
+
+else
+topbp.style.border="2px solid red";
+
+}
+
+/* Bottom BP */
+
+if(botbp.value){
+
+if(botbp.value>=60 && botbp.value<=80)
+botbp.style.border="2px solid green";
+
+else if(botbp.value<=90)
+botbp.style.border="2px solid orange";
+
+else
+botbp.style.border="2px solid red";
+
+}
+
+/* BMI */
+
+if(bmi.value){
+
+if(bmi.value>=18.5 && bmi.value<=24.9)
+bmi.style.border="2px solid green";
+
+else if(bmi.value<=29.9)
+bmi.style.border="2px solid orange";
+
+else
+bmi.style.border="2px solid red";
+
+}
+
+}
+
+/* Run when user types */
+
+document.querySelectorAll("input").forEach(input=>{
+input.addEventListener("input",checkHealth)
+})
+
+</script>
+
+</body>
+</html>
