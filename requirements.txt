@@ -7,3 +7,4 @@ bcrypt
 gunicorn
 joblib
 edge-tts
+reportlab
