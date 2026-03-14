@@ -291,7 +291,7 @@ def index():
 
         # SAVE HISTORY
         save_history({
-            "DateTime": datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
+            "DateTime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "Name": name,
             "Age": age,
             "TopBP": topbp,
@@ -851,21 +851,20 @@ def admin():
     if os.path.exists("patient_history.csv"):
 
         df = pd.read_csv("patient_history.csv")
+
         df["DateTime"] = pd.to_datetime(df["DateTime"], errors="coerce")
+        
         df = df.dropna(subset=["DateTime"])
-
+        
         total_predictions = len(df)
-
-        df["DateTime"] = pd.to_datetime(df["DateTime"], errors="coerce")
-
+        
         today = datetime.now().date()
-
+        
         today_predictions = len(df[df["DateTime"].dt.date == today])
 
-        high_risk = len(df[df["Severity"].str.contains("HIGH", na=False)])
+high_risk = len(df[df["Severity"] == "HIGH"])
 
-        history = df.values.tolist()
-
+history = df.values.tolist()
     else:
         total_predictions = 0
         today_predictions = 0
@@ -906,6 +905,9 @@ def admin_predictions():
     if "user" not in session or session["user"] != "admin":
         return redirect("/login")
 
+    if not os.path.exists("patient_history.csv"):
+        return render_template("admin_predictions.html", data=[])
+
     df = pd.read_csv("patient_history.csv")
     data = df.values.tolist()
 
@@ -917,6 +919,9 @@ def admin_highrisk():
 
     if "user" not in session or session["user"] != "admin":
         return redirect("/login")
+
+    if not os.path.exists("patient_history.csv"):
+        return render_template("admin_predictions.html", data=[])
 
     df = pd.read_csv("patient_history.csv")
 
