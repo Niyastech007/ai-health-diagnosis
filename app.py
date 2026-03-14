@@ -853,19 +853,21 @@ def admin():
         df = pd.read_csv("patient_history.csv")
 
         df["DateTime"] = pd.to_datetime(df["DateTime"], errors="coerce")
-        
+
         df = df.dropna(subset=["DateTime"])
-        
+
         total_predictions = len(df)
-        
+
         today = datetime.now().date()
-        
+
         today_predictions = len(df[df["DateTime"].dt.date == today])
 
-high_risk = len(df[df["Severity"] == "HIGH"])
+        high_risk = len(df[df["Severity"] == "HIGH"])
 
-history = df.values.tolist()
+        history = df.values.tolist()
+
     else:
+
         total_predictions = 0
         today_predictions = 0
         high_risk = 0
@@ -879,7 +881,6 @@ history = df.values.tolist()
         today_predictions=today_predictions,
         history=history
     )
-
 # ========== ADMIN USERS =============
 
 @app.route("/admin/users")
