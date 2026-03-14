@@ -922,7 +922,7 @@ def admin_highrisk():
         return redirect("/login")
 
     if not os.path.exists("patient_history.csv"):
-        return render_template("admin_predictions.html", data=[])
+        return render_template("admin_highrisk.html", data=[])
 
     df = pd.read_csv("patient_history.csv")
 
