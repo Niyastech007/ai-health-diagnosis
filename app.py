@@ -856,6 +856,8 @@ def admin():
 
         df = df.dropna(subset=["DateTime"])
 
+        df = df.drop(columns=["User"], errors="ignore")
+
         total_predictions = len(df)
 
         today = datetime.now().date()
