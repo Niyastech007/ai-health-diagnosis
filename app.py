@@ -852,7 +852,7 @@ def admin():
 
         df = pd.read_csv("patient_history.csv")
 
-        df["DateTime"] = pd.to_datetime(df["DateTime"], errors="coerce")
+        df["DateTime"] = pd.to_datetime(df["DateTime"], errors="coerce", dayfirst=True)
 
         df = df.dropna(subset=["DateTime"])
 
