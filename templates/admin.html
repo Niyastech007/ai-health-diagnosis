@@ -68,38 +68,40 @@ box-shadow:0 10px 25px rgba(0,0,0,0.25);
 
 <div class="row g-4 mb-4">
 
-<div class="col-md-4">
-
+<div class="col-md-3">
 <a href="/admin/users" class="card-link">
 <div class="stat-card users">
 👤 Total Users<br>
 {{ total_users }}
 </div>
 </a>
-
 </div>
 
-<div class="col-md-4">
-
-<div class="col-md-4"> 
+<div class="col-md-3">
 <a href="/admin/predictions" class="card-link">
 <div class="stat-card predictions">
 📊 Total Predictions<br>
 {{ total_predictions }}
 </div>
 </a>
-
 </div>
 
-<div class="col-md-4">
-
+<div class="col-md-3">
 <a href="/admin/highrisk" class="card-link">
 <div class="stat-card risk">
 ⚠ High Risk Cases<br>
 {{ high_risk }}
 </div>
 </a>
+</div>
 
+<div class="col-md-3">
+<a href="/admin/predictions" class="card-link">
+<div class="stat-card today">
+📅 Today Predictions<br>
+{{ today_predictions }}
+</div>
+</a>
 </div>
 
 </div>
