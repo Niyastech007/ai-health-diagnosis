@@ -1,7 +1,0 @@
-DateTime,Name,Age,TopBP,BottomBP,Sugar,BMI,ChestPain,PredictedDisease,Severity,Confidence,User
-11-03-2026 22:39:07,jakir,45,240,241,200,22.0,0,Heart Disease,MEDIUM,76.33%,Niyas
-11-03-2026 23:38:08,udhaya,24,250,100,240,22.0,0,Diabetes,HIGH,69.00%,Niyas
-11-03-2026 23:40:02,udhaya,24,250,100,240,22.0,0,Diabetes,HIGH,69.00%,Niyas
-12-03-2026 22:53:18,simbu,47,150,100,120,24.0,0,Hypertension,MEDIUM,91.67%,Azar
-13-03-2026 20:46:24,KUMAR,35,140,100,145,23.0,0,Hypertension,MEDIUM,88.67%,Niyas
-13-03-2026 20:57:56,KUMAR,35,140,120,150,22.0,0,Hypertension,MEDIUM,50.33%,Niyas
