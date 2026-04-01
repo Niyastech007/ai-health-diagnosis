@@ -934,5 +934,36 @@ def admin_highrisk():
 
     return render_template("admin_highrisk.html", data=data)
 
+#========= CHATBOT ===========
+
+@app.route("/chat", methods=["POST"])
+def chat():
+
+    user_msg = request.form.get("message","").lower()
+
+    # Smart rule-based replies
+    if "diabetes" in user_msg:
+        reply = "Diabetes is a condition where blood sugar levels are too high. It can be controlled with diet, exercise, and medication."
+
+    elif "reduce sugar" in user_msg or "control sugar" in user_msg:
+        reply = "To reduce sugar: avoid sweets, exercise daily, drink more water, and eat fiber-rich foods."
+
+    elif "bmi" in user_msg:
+        reply = "BMI (Body Mass Index) measures body fat using height and weight. Normal BMI is 18.5 to 24.9."
+
+    elif "bp" in user_msg or "blood pressure" in user_msg:
+        reply = "Normal BP is 120/80 mmHg. Reduce salt, exercise, and manage stress."
+
+    elif "heart" in user_msg:
+        reply = "Heart health requires regular exercise, low-fat diet, and avoiding smoking."
+
+    elif "hello" in user_msg or "hi" in user_msg:
+        reply = "Hello 👋 I am your AI Health Assistant. Ask me anything about health."
+
+    else:
+        reply = "I can help with diabetes, BP, BMI, heart health. Please ask related questions."
+
+    return {"reply": reply}
+
 if __name__ == "__main__":
     app.run(debug=False)
