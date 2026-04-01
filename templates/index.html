@@ -346,6 +346,144 @@ margin-top:4px;
 color:#444;
 }
 
+#chat-toggle{
+position:fixed;
+bottom:20px;
+right:20px;
+width:60px;
+height:60px;
+background:linear-gradient(135deg,#007bff,#00c6ff);
+color:white;
+font-size:26px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+cursor:pointer;
+box-shadow:0 5px 20px rgba(0,0,0,0.4);
+z-index:999;
+}
+
+#chat-container{
+position:fixed;
+bottom:90px;
+right:20px;
+width:340px;
+height:460px;
+background:white;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+display:none;
+flex-direction:column;
+overflow:hidden;
+z-index:999;
+animation:fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.chat-header{
+background:linear-gradient(135deg,#007bff,#00c6ff);
+color:white;
+padding:12px;
+font-weight:bold;
+position:relative;
+}
+
+.close-btn{
+position:absolute;
+right:10px;
+top:10px;
+cursor:pointer;
+}
+
+.clear-btn{
+position:absolute;
+right:40px;
+top:10px;
+cursor:pointer;
+}
+
+.chat-area{
+flex:1;
+padding:10px;
+overflow-y:auto;
+background:#f7f9fc;
+}
+
+.chat-input{
+display:flex;
+border-top:1px solid #ddd;
+}
+
+.chat-input input{
+flex:1;
+border:none;
+padding:12px;
+outline:none;
+}
+
+.chat-input button{
+background:#007bff;
+color:white;
+border:none;
+padding:10px 15px;
+cursor:pointer;
+}
+
+.user-msg{
+text-align:right;
+margin:6px;
+background:#007bff;
+color:white;
+padding:8px;
+border-radius:10px;
+display:inline-block;
+}
+
+.bot-msg{
+text-align:left;
+margin:6px;
+background:#e4e6eb;
+padding:8px;
+border-radius:10px;
+display:inline-block;
+}
+
+/* typing animation */
+.typing{
+font-style:italic;
+opacity:0.7;
+}
+
+/* quick buttons */
+.quick-btns{
+padding:5px;
+display:flex;
+gap:5px;
+flex-wrap:wrap;
+}
+
+.quick-btns button{
+font-size:12px;
+border:none;
+background:#eee;
+padding:5px 8px;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* mobile */
+@media(max-width:768px){
+#chat-container{
+width:90%;
+right:5%;
+}
+}
+
     </style>
 </head>
 
