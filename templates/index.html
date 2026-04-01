@@ -1009,5 +1009,65 @@ input.addEventListener("input",checkHealth)
 
 </script>
 
+<script>
+
+function toggleChat(){
+    let chat = document.getElementById("chat-container");
+    chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+// ENTER KEY
+function handleEnter(e){
+    if(e.key === "Enter"){
+        sendMessage();
+    }
+}
+
+// QUICK BUTTON
+function quickMsg(text){
+    document.getElementById("user-input").value = text;
+    sendMessage();
+}
+
+// CLEAR CHAT
+function clearChat(){
+    document.getElementById("chat-area").innerHTML = "";
+}
+
+// SEND MESSAGE
+function sendMessage(){
+
+    let input = document.getElementById("user-input");
+    let msg = input.value;
+
+    if(msg.trim() === "") return;
+
+    let chatArea = document.getElementById("chat-area");
+
+    chatArea.innerHTML += `<div class="user-msg">${msg}</div>`;
+
+    // typing animation
+    chatArea.innerHTML += `<div class="bot-msg typing" id="typing">Typing...</div>`;
+    chatArea.scrollTop = chatArea.scrollHeight;
+
+    fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: "message=" + encodeURIComponent(msg)
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        document.getElementById("typing").remove();
+
+        chatArea.innerHTML += `<div class="bot-msg">${data.reply}</div>`;
+        chatArea.scrollTop = chatArea.scrollHeight;
+    });
+
+    input.value = "";
+}
+
+</script>
+
 </body>
 </html>
