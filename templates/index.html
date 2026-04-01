@@ -609,6 +609,34 @@ class="btn btn-secondary btn-lg">
 
 </div>
 
+<!-- FLOAT BUTTON -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+
+<!-- CHAT BOX -->
+<div id="chat-container">
+
+    <div class="chat-header">
+        🧠 AI Health Assistant
+        <span onclick="clearChat()" class="clear-btn">🗑</span>
+        <span onclick="toggleChat()" class="close-btn">✖</span>
+    </div>
+
+    <div id="chat-area" class="chat-area"></div>
+
+    <!-- QUICK BUTTONS -->
+    <div class="quick-btns">
+        <button onclick="quickMsg('What is diabetes?')">Diabetes</button>
+        <button onclick="quickMsg('How to reduce sugar?')">Reduce Sugar</button>
+        <button onclick="quickMsg('What is BMI?')">BMI</button>
+    </div>
+
+    <div class="chat-input">
+        <input type="text" id="user-input" placeholder="Ask health question..." onkeypress="handleEnter(event)">
+        <button onclick="sendMessage()">➤</button>
+    </div>
+
+</div>
+
 
 <script>
 
